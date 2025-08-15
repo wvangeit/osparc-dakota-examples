@@ -20,7 +20,7 @@ jobs:
                   "efficient_global",
                   "moga_mixedvar"
                 ]
-                python-version: ["3.9", "3.12"]
+                python-version: ["3.9", "3.13"]
                 os: ["ubuntu-latest"]
         steps:
             - name: Check out code
