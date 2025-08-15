@@ -1,7 +1,7 @@
 SHELL := /bin/bash
 
 # List of example directories
-EXAMPLES := simple simple_restart simple_batch adasampling moga efficient_global surrogate
+EXAMPLES := simple simple_restart simple_batch adasampling moga efficient_global surrogate moga_mixedvar
 
 # Directory for virtual environment
 VENV_DIR := pyenv

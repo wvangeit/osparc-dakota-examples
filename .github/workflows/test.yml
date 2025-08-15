@@ -17,7 +17,8 @@ jobs:
                   "simple_restart",
                   "adasampling",
                   "moga",
-                  "efficient_global"
+                  "efficient_global",
+                  "moga_mixedvar"
                 ]
                 python-version: ["3.9", "3.12"]
                 os: ["ubuntu-latest"]
