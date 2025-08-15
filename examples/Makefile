@@ -40,10 +40,11 @@ devenv: clean .venv
 # General target for examples
 .PHONY: $(EXAMPLES)
 $(EXAMPLES): clean devenv
-		mkdir $@/output_tmp && \
-		$(if $(filter simple_restart,$@),cp $@/dakota.rst $@/output_tmp &&) \
-		cd $@/output_tmp && \
-		python ../main.py
+	source .venv/bin/activate && \
+	mkdir $@/output_tmp && \
+	$(if $(filter simple_restart,$@),cp $@/dakota.rst $@/output_tmp &&) \
+	cd $@/output_tmp && \
+	python ../main.py
 
 # Module-based targets
 .PHONY: module-simple_batch module-adasampling
