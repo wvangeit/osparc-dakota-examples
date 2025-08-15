@@ -12,20 +12,39 @@ clean:
 	@rm -rf $(VENV_DIR)
 	@$(foreach dir,$(EXAMPLES),rm -rf $(dir)/output_tmp;)
 
+
+.check-uv-installed:
+		@echo "Checking if 'uv' is installed..."
+		@if ! command -v uv >/dev/null 2>&1; then \
+				curl -LsSf https://astral.sh/uv/install.sh | sh; \
+		else \
+				printf "\033[32m'uv' is installed. Version: \033[0m"; \
+				uv --version; \
+		fi
+		# upgrading uv
+		-@uv self --quiet update
+
+
+.venv: .check-uv-installed
+	@uv venv $@
+	@echo "# upgrading tools to latest version in" && $@/bin/python --version
+	@uv pip list
+
+
+
 # Virtual environment target
-.PHONY: pyenv
-pyenv: clean
-	@python -m venv $(VENV_DIR)
-	@. ./$(VENV_DIR)/bin/activate && pip install -r requirements.txt
+.PHONY: devenv
+devenv: clean .venv
+	@uv pip install -r requirements.txt
 
 # General target for examples
 .PHONY: $(EXAMPLES)
-$(EXAMPLES): clean pyenv
-	@. ./$(VENV_DIR)/bin/activate && \
-		mkdir $@/output_tmp && \
-		$(if $(filter simple_restart,$@),cp $@/dakota.rst $@/output_tmp &&) \
-		cd $@/output_tmp && \
-		python ../main.py
+$(EXAMPLES): clean devenv
+	source .venv/bin/activate && \
+	mkdir $@/output_tmp && \
+	$(if $(filter simple_restart,$@),cp $@/dakota.rst $@/output_tmp &&) \
+	cd $@/output_tmp && \
+	python ../main.py
 
 # Module-based targets
 .PHONY: module-simple_batch module-adasampling
