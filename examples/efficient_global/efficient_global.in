@@ -1,0 +1,45 @@
+environment
+    tabular_data
+        tabular_data_file
+            'dakota_tabular.dat'
+    top_method_pointer = 'EFFICIENT_GLOBAL'
+
+    method 
+        id_method = 'EFFICIENT_GLOBAL'
+        efficient_global
+            model_pointer 'TRUE_MODEL'
+            initial_samples 10
+            batch_size 2
+            seed 234324200
+            max_iterations 20
+            # gaussian_process
+            #    surfpack
+
+    model
+        id_model = 'TRUE_MODEL'
+        single
+            interface_pointer = 'INTERFACE'
+            variables_pointer = 'VARIABLES'
+            responses_pointer = 'RESPONSES'
+
+    variables
+        id_variables = 'VARIABLES'
+        continuous_design = 2
+            descriptors       'X@'   'Y'
+            initial_point     0.5        1.0
+            lower_bounds      -2.0       -2.0
+            upper_bounds      2.0        2.0
+
+    interface,
+        id_interface = 'INTERFACE'
+        python
+            batch
+            analysis_drivers
+                'evaluator'
+
+    responses
+        id_responses = 'RESPONSES'
+        descriptors 'Z'
+        objective_functions = 1
+        no_gradients
+        no_hessians

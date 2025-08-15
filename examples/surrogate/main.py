@@ -1,0 +1,36 @@
+import pathlib as pl
+
+import dakota.environment as dakenv
+import numpy as np
+
+script_dir = pl.Path(__file__).parent
+
+
+def evaluator(inputs):
+    # Get the continuous variables out of the input provided by dakota
+    x,y = inputs["cv"]
+
+    z = 2.5*np.exp(-1*(x**2 + y**2))*(x + y**2 + np.random.normal(0, 0.1, 1))
+    print(f"Evaluated {x},{y}: {z}")
+    
+    # Put the objective in the dakota 'fns' field of the output
+    outputs = {"fns": z}
+
+    return outputs
+
+
+def main():
+    print("Starting dakota")
+
+    dakota_conf_path = script_dir / "surrogate.in"
+    dakota_conf = dakota_conf_path.read_text()
+    study = dakenv.study(
+        callbacks={"evaluator": evaluator},
+        input_string=dakota_conf,
+    )
+
+    study.execute()
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,60 @@
+environment
+    tabular_data
+        tabular_data_file
+            'dakota_tabular.dat'
+    top_method_pointer = 'SURROGATE_BUILDING'
+
+    method 
+        id_method = 'SURROGATE_BUILDING'
+        surrogate_based_global
+            model_pointer 'SURROGATE'
+            method_pointer 'SAMPLING'
+
+    model
+        id_model = 'SURROGATE'
+        surrogate global
+            gaussian_process
+                surfpack
+                export_model
+                    formats algebraic_file
+            dace_method_pointer = 'SAMPLING'
+            
+
+    method
+        id_method = 'SAMPLING'
+        sampling 
+            sample_type lhs
+            samples 10
+            model_pointer = "TRUE_MODEL"
+            seed 1234
+
+    model
+        id_model = 'TRUE_MODEL'
+        single
+            interface_pointer = 'INTERFACE'
+            variables_pointer = 'VARIABLES'
+            responses_pointer = 'RESPONSES'
+
+    variables
+        id_variables = 'VARIABLES'
+        continuous_design = 2
+            descriptors       'X'   'Y'
+            initial_point     0.5        1.0
+            lower_bounds      -2.0       -2.0
+            upper_bounds      2.0        2.0
+
+    interface,
+        id_interface = 'INTERFACE'
+        python 
+            analysis_drivers
+                'evaluator'
+            failure_capture
+                recover
+                    NaN NaN
+
+    responses
+        id_responses = 'RESPONSES'
+        descriptors 'Z'
+        objective_functions = 1
+        no_gradients
+        no_hessians

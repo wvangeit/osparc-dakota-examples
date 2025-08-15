@@ -16,9 +16,10 @@ jobs:
                   "simple_batch",
                   "simple_restart",
                   "adasampling",
-                  "moga"
+                  "moga",
+                  "efficient-global"
                 ]
-                python-version: ["3.8", "3.12"]
+                python-version: ["3.9", "3.12"]
                 os: ["ubuntu-latest"]
         steps:
             - name: Check out code
