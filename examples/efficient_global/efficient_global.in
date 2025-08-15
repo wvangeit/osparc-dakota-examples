@@ -8,10 +8,10 @@ environment
         id_method = 'EFFICIENT_GLOBAL'
         efficient_global
             model_pointer 'TRUE_MODEL'
-            initial_samples 10
+            initial_samples 5
             batch_size 2
             seed 234324200
-            max_iterations 20
+            max_iterations 10
             # gaussian_process
             #    surfpack
 
